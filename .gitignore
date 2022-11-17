@@ -1,0 +1,4 @@
+#忽略index.txt这个文件
+test*.txt
+#忽略test目录下所有文件
+test/
