@@ -1,12 +1,16 @@
 <template>
-    <div class="box1"></div>
+    <div class="left-container">
+        <h3>Left 组件</h3>
+        <hr>
+        <MyCount></MyCount>
+    </div>
 </template>
 <style lang="less">
-    .box1{
-        display: inline-block;
-        margin-left: 0;
-        width: 200px;
-        height: 100px;
+    .left-container{
+        padding: 0 20px 20px ;
         background-color: pink;
+        width: 200px;
+        min-height: 100px;
+        flex: 1;
     }
 </style>

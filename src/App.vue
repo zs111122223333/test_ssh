@@ -26,6 +26,10 @@ export default {
 <style lang="less">
 .app-container{
   padding: 1px 20px 20px;
-  background-color: #efefef;
+  background-color:#efefef;
+  .box{
+    display: flex;
+  }
 }
+
 </style>
