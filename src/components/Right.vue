@@ -16,4 +16,11 @@
     h3{
         color: blue;
     }
+    // /deep/ 样式穿透
+	// 当修改第三方组件库中组件的默认样式时，需要用到 /deep/
+	// /deep/ 需要和 scoped 同时使用才会生效
+	// 原理 ：/deep/ 会使子组件样式也产生    data-v-特定唯一值	
+    /deep/ h5{
+        color: aqua;
+    }
 </style>
