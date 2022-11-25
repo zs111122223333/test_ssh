@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 希望 Vue 能够控制下面的这个 div,帮我们把数据填充到 div 内部 -->
+    <div id="app">
+        <input type="text" v-model="username">
+        <input type="text" v-model="username2">
+        <input type="text" v-model="info.message">
+        <input type="text" v-model="info.message2.info2">
+        <div>姓名：{{username}}</div>
+        <!-- 在绑定事件时，可以通过()来传参 -->
+        <!-- vue 提供了内置变量，名字叫做$event,它就是原生 DOM 的事件对象 e -->
+        <!-- 判断count为偶数按钮背景是红色，为奇数是蓝色 -->
+        <button v-on:click=" add(1,$event) ">+n</button>
+        <p>{{count}}</p>
+        <button v-on:click="add(2) ">-2</button>
+        <table>
+            <thead>
+                <th>索引</th>
+                <th>id</th>
+                <th>姓名</th>
+            </thead>
+            <tbody>
+                <!-- 官方建议只要用到了 v-for 指令，那么一定要绑定一个 ：key属性 -->
+                <!-- 而且，尽量把 id 作为 key 的值 -->
+                <!-- 官方对 key 的值类型要求，字符串或数字类型 -->
+                <!-- key 的值是千万不能重复的，否则报错 Dulicate keys detected -->
+                <tr v-for="(item,index) in list " :key="item.id " :title="item.name + index ">
+                    <td>{{index}}</td>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>message 的值是：{{ message | capitalize}}</p>
+    </div>
+    <div id="app2">
+        <p>message 的值是：{{ message | capitalize}}</p>
+        <p>message 的值是：{{ time | dateFormat}}</p>
+    </div>
+    <!-- 1.导入 Vue 的库文件，在 windows 全局就有了 Vue 这个构造函数 -->
+    <script src="./lib/vue.js "></script>
+    <script src="./lib/dayjs.min.js "></script>
+    <!-- 2.创建 Vue 的实例对象 -->
+    <script>
+        // 使用vue.filter() 定义全局过滤器
+        Vue.filter('capitalize', function(str) {
+                const first = str.charAt(0).toUpperCase();
+                const other = str.slice(1);
+                return first + other + '----';
+            })
+            // 使用vue.filter() 定义全局过滤器
+        Vue.filter('dateFormat', function(time) {
+                const dtStr = dayjs(time).format('YYYY-MM-DD HH-mm-ss')
+                return dtStr
+            })
+            //创建 Vue 的实例对象
+        const vm = new Vue({
+            //el 属性是固定的写法，表示 vm 实例要控制页面上的哪个区域，接收的值是一个选择器
+            el: '#app',
+            //data 对象就是要渲染到页面上的数据
+            data: {
+                message: 'hello vue.js',
+                username: '张三',
+                username2: '李四',
+                info: {
+                    message: '王五',
+                    message2: {
+                        info2: '123'
+                    }
+                },
+                count: 0,
+                list: [{
+                    id: 1,
+                    name: '张三'
+                }, {
+                    id: 2,
+                    name: '李四'
+                }, {
+                    id: 3,
+                    name: '王五'
+                }]
+            },
+            // methods 的作用，就是定义事件的处理函数
+            methods: {
+                add: function(n, e) {
+                    // console.log("add ");
+                    // console.log(vm === this);
+                    console.log(e);
+                    this.count += n;
+                    if (this.count % 2 === 0) {
+                        //偶数
+                        e.target.style.background = 'red'
+                    } else {
+                        //奇数
+                        e.target.style.background = ''
+                    }
+                },
+                sub(n) {
+                    // console.log("sub ");
+                    this.count -= n
+                }
+            },
+            //过滤器函数，必须被定义到 filters 节点下
+            //过滤器本质上是函数
+            filters: {
+                //过滤器函数形象中的 val，永远都是管道符前面的那个值
+                capitalize(val) {
+                    // console.log(val)
+                    //字符串有 charAt 方法，这个方法接收索引值，表示把字符串中对应索引字符取出来
+                    const first = val.charAt(0).toUpperCase()
+                        //字符串的 slice 方法，可以截取字符，从指定索引后截取
+                    const other = val.slice(1)
+                        //过滤器中，一定要有一个返回值
+                    return first + other
+                }
+            },
+            //所有的侦听器，都应该被定义到 watch 节点下
+            watch: {
+                //侦听器本质上是一个函数，要监听那个数据变化，就把数据名作为方法即可
+                //新值在前，旧值在后
+                //方法格式的侦听器
+                username(newVal, oldVal) {
+                    console.log('监听到了 username 值的变化', newVal, oldVal);
+                },
+                //对象格式的侦听器
+                username2: {
+                    handler(newVal, oldVal) {
+                        console.log(newVal, oldVal);
+                    },
+                    //控制侦听器是否自动触发一次
+                    immediate: true
+                },
+                'info.message': {
+                    handler(newVal, oldVal) {
+                        console.log(newVal, oldVal);
+                    },
+                    deep: true
+                },
+                'info.message2.info2': {
+                    handler(newVal, oldVal) {
+                        console.log(newVal, oldVal);
+                    },
+                    deep: true
+                }
+            }
+        })
+        const vm2 = new Vue({
+            el: "#app2",
+            data: {
+                message: 'myvue',
+                time: new Date()
+            }
+        })
+    </script>
+</body>
+
+</html>
