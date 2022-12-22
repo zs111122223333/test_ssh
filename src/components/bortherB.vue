@@ -4,7 +4,7 @@
 
 <script>
 //1.导入 eventBus.js 模块
-import bus from './eventBus.js'
+import bus2 from './eventBus.js'
 
 export default {
     data(){
@@ -14,7 +14,7 @@ export default {
     },
     created(){
         //2.为bus绑定自定义事件
-        bus.$on('share',val=>{
+        bus2.$on('share',val=>{
             this.msgFromLeft = val
         })
     }

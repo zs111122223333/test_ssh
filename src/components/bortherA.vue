@@ -4,7 +4,7 @@
 
 <script>
 //1.导入 eventBus.js 模块
-import bus from './eventBus.js'
+import bus1 from './eventBus.js'
 
 export default {
     data(){
@@ -15,7 +15,7 @@ export default {
     methods:{
         sendMsg(){
             //2.通过 eventBus 来发送数据
-            bus.$emit('share',this.msg)
+            bus1.$emit('share',this.msg)
         }
     }
 }

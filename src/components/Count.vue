@@ -4,6 +4,7 @@
       <p>count 的值是：{{count}}</p>
       <button @click="add">+1</button>
       <button @click="show">打印 this 的值</button>
+      <button @click="resetCount">重置</button>
   </div>
 </template>
 
@@ -40,6 +41,9 @@ export default {
     },
     show(){
       console.log(this);
+    },
+    resetCount(){
+      this.count = 0
     }
   }
 }

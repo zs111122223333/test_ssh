@@ -2,7 +2,7 @@
     <div class="left-container">
         <h3>Left 组件</h3>
         <hr>
-        <MyCount :init="7"></MyCount>
+        <MyCount ref="mycount" :init="7"></MyCount>
     </div>
 </template>
 
